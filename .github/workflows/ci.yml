@@ -1,0 +1,45 @@
+name: DyslexAI CI
+
+on:
+  push:
+    branches:
+      - develop
+      - main
+  pull_request:
+    branches:
+      - develop
+      - main
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Check Python version
+        run: python --version
+
+      - name: Check repository structure
+        run: |
+          echo "Checking DyslexAI repository..."
+          test -d src
+          test -d tests
+          test -d app
+          test -d docs
+          echo "Repository structure looks good."
+
+      - name: Run tests
+        run: |
+          if find tests -type f -name "test_*.py" | grep -q .; then
+            python -m pip install pytest
+            pytest
+          else
+            echo "No tests found yet. Skipping pytest."
+          fi
