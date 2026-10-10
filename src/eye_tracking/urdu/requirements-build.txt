@@ -1,0 +1,2 @@
+# only for building Urdu passages (scripts/build_urdu_passage.py); not needed to run a session
+playwright==1.63.0

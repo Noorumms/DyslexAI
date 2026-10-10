@@ -1,0 +1,12 @@
+{
+  "id": "urdu_easy_1",
+  "language": "ur",
+  "level": "easy",
+  "status": "PLACEHOLDER written by an AI assistant: not reviewed by an Urdu teacher, not frequency-rated",
+  "lines": [
+    {"line_index": 0, "words": ["علی", "ہر", "روز", "صبح", "اسکول", "جاتا", "ہے۔"]},
+    {"line_index": 1, "words": ["اس", "کا", "بستہ", "نیلا", "اور", "بڑا", "ہے۔"]},
+    {"line_index": 2, "words": ["راستے", "میں", "اسے", "ایک", "پیارا", "کتا", "ملتا", "ہے۔"]},
+    {"line_index": 3, "words": ["وہ", "کتے", "کو", "روٹی", "کھلاتا", "ہے۔"]}
+  ]
+}
