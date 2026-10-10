@@ -97,7 +97,7 @@ def main(passage_id):
     cv2.imwrite(str(stem) + "_check.png", draw_check(image, layout))
 
     print(f"built {stem.name}: {layout['word_count']} words, browser {version}")
-    if machine.get("screen_w_cm") and machine.get("distance_cm"):
+    if len(passage["lines"]) > 1 and machine.get("screen_w_cm") and machine.get("distance_cm"):
         ppd = fixations.px_per_degree(width, machine["screen_w_cm"], machine["distance_cm"])
         print(f"line spacing {settings['pitch_px']} px = {settings['pitch_px'] / ppd:.1f} deg")
     print(f"now open {stem.name}_check.png and look at it")

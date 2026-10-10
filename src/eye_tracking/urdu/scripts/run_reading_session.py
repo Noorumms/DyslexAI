@@ -19,7 +19,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import cv2
 
-from core import capture, passage, urdu_layout
+from core import calibration, capture, fixations, passage, urdu_layout
 
 WINDOW = "reading"
 SPACE, ESC = 32, 27
@@ -46,10 +46,28 @@ def record(cap, writer, image):
             raise SystemExit("aborted")
 
 
+def check_calibration(folder, machine):
+    """Stop and ask before recording a reading on top of a calibration that is not good enough."""
+    path = folder / "calibration.json"
+    if not path.exists():
+        raise SystemExit(f"no calibration for {folder.name}: run capture_calibration.py first")
+    raw = json.loads(path.read_text())
+    error = calibration.leave_one_dot_out(raw["vectors"], raw["targets"], raw["dots"])
+    ppd = fixations.px_per_degree(
+        machine["screen_w_px"], machine["screen_w_cm"], machine["distance_cm"]
+    )
+    degrees = calibration.headline_px(error) / ppd
+    print(f"calibration error: {degrees:.2f} deg")
+    if degrees > 3.0:
+        print("That is above 3 degrees, so this recording will be marked not usable.")
+        input("Press Enter to record anyway, or Ctrl+C to stop and recalibrate: ")
+
+
 def main(name, passage_id=None):
     machine = capture.load_machine()
     capture.check_measured(machine)
     folder = capture.session_dir(name)
+    check_calibration(folder, machine)
     video = folder / "reading.mp4"
     if video.exists():
         raise SystemExit(f"{video} already exists; use a new session name")
